@@ -4,15 +4,18 @@
   "description": "Small project to learn about npm and webpack",
   "private": true,
   "main": "index.js",
+  "homepage":"https://Azzaid.github.io/moneyCounterZ",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "webpack --config webpack.prod.js && git subtree push --prefix release origin gh-pages",
+    "predeploy": "webpack --config webpack.prod.js",
+    "deploy": "gh-pages -d release",
     "start": "webpack-dev-server --open --config webpack.dev.js"
   },
   "keywords": [],
   "author": "Johanas Azzaid",
   "license": "ISC",
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-merge": "^4.2.1"
