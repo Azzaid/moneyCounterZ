@@ -6,7 +6,7 @@
   "main": "index.js",
   "homepage":"https://Azzaid.github.io/moneyCounterZ",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js && webpack --config webpack.dev.js",
     "predeploy": "webpack --config webpack.prod.js",
     "deploy": "gh-pages -d release",
     "start": "webpack-dev-server --open --config webpack.dev.js"
