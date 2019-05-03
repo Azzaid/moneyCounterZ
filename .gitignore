@@ -1,5 +1,7 @@
 node_modules/
 .idea/
-public/
-release/
+public/**
+release/**
+!public/index.html
+!release/index.html
 package-lock.json
