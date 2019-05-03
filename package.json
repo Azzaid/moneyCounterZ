@@ -4,7 +4,7 @@
   "description": "Small project to learn about npm and webpack",
   "private": true,
   "main": "index.js",
-  "homepage":"https://Azzaid.github.io/moneyCounterZ",
+  "homepage": "https://Azzaid.github.io/moneyCounterZ",
   "scripts": {
     "build": "webpack --config webpack.prod.js && webpack --config webpack.dev.js",
     "predeploy": "webpack --config webpack.prod.js",
@@ -18,13 +18,14 @@
     "gh-pages": "^2.0.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack-merge": "^4.2.1"
-  },
-  "dependencies": {
+    "webpack-merge": "^4.2.1",
     "css-loader": "^2.1.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack-dev-server": "^3.2.1"
+  },
+  "dependencies": {
+    "matter-js": "^0.14.2"
   }
 }

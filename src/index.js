@@ -1,6 +1,5 @@
 import './styles/index.scss'
-console.log('app started');
+import Engine from './engine/index'
 
 const appRoot = document.getElementById('root');
-
-appRoot.appendChild(document.createElement('div'));
+const gameEngine = new Engine(appRoot);
