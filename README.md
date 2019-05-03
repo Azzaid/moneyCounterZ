@@ -4,7 +4,7 @@
 
 1. Clone repository
 3. Download dependencies `npm i`
-4. Start development server `npm start`
+4. Start development server `npm run start`
 5. Open `http://localhost:9000`
 
-Currently project does nothing. But soon you will see some sandbox game.
+Currently project does nothing.
