@@ -1,17 +1,21 @@
 import Matter from "matter-js";
-import { getLineLenght, getAngleBetweenDots } from "./baseMath.js"
+import { getLineLenght, getAngleBetweenDots } from "./math/planimetry.ts"
 import { GROUND } from "../constants/gameObjects"
+import Joint from "./components/joint.js"
 
 export default class Engine {
     constructor (DOMObj) {
         this.domObjectRef = DOMObj;
         this.engine = Matter.Engine.create();
         this.gameCanvas = document.createElement("canvas");
+        this.gameCanvas.addEventListener('click', event => {this.addJoint(event.clientX - this.gamefieldCornerX, event.clientY - this.gamefieldCornerY)});
         this.domObjectRef.appendChild(this.gameCanvas);
         this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine});
         Matter.Render.run(this.renderer);
         this.updateGamefieldPosition();
         this.addGround([{x:0,y:400}, {x:300, y:400}, {x:500,y:450}, {x:600,y:450}, {x:800,y:400}]);
+
+      this.jointsList = [];
     }
 
     updateGamefieldPosition() {
@@ -44,5 +48,9 @@ export default class Engine {
         previousDot = {x:x, y:y};
       }
     })
+  };
+
+  addJoint(x,y) {
+    this.jointsList.push(new Joint(x, y, this.engine));
   };
 }

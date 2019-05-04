@@ -15,15 +15,17 @@
   "author": "Johanas Azzaid",
   "license": "ISC",
   "devDependencies": {
-    "gh-pages": "^2.0.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-merge": "^4.2.1",
     "css-loader": "^2.1.1",
+    "gh-pages": "^2.0.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack-dev-server": "^3.2.1"
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.4.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "matter-js": "^0.14.2"
