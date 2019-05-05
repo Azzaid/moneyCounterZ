@@ -1,4 +1,48 @@
 body {
-  background-color: #222;
+  background-color: lightgrey;
   color: #8EE4AF;
+}
+
+.main-header {
+  color: blueviolet;
+  text-align: center;
+}
+
+.buttons-wrapper {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.game-field-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 100px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 25px;
+  color: black;
+  cursor: pointer;
+}
+
+.button_start {
+  background-color: chartreuse;
+}
+
+.button_step {
+  background-color: darkorange;
+}
+
+.button_stop {
+  background-color: darkred;
 }
