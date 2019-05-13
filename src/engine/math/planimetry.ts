@@ -13,7 +13,7 @@ export function getAngleBetweenDots(dot1X: number, dot1Y: number, dot2X: number,
   if (x != 0) {
     angle = Math.atan(y/x);
   } else {
-    angle = Math.sign(y) * Math.PI/2;
+    angle = (y > 0 ? 1 : -1) * Math.PI/2;
   }
 
   return angle;
