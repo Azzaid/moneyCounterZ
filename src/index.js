@@ -1,7 +1,7 @@
 import './styles/index.scss'
 import Engine from './engine/index'
 
-const appRoot = document.getElementById('root');
+const appRoot = document.body;
 
 let mainHeader = document.createElement('h1');
 mainHeader.classList.add('main-header');
