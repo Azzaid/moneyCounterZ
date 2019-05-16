@@ -4,41 +4,27 @@ import { GROUND, RENDERER } from "../constants/gameObjects"
 import Joint from "./components/joint.js"
 
 export default class Engine {
-    constructor (gameFieldDOMObj, buttonsWrapperDOMObj) {
-      this.gameFieldWrapper = gameFieldDOMObj;
+    constructor () {
       this.gameCanvas = document.createElement("canvas");
       this.gameCanvas.addEventListener('click', event => {this.addJoint(event.clientX - this.gamefieldCornerX, event.clientY - this.gamefieldCornerY)});
-      this.gameFieldWrapper.appendChild(this.gameCanvas);
-
-      this.buttonsWrapper = buttonsWrapperDOMObj;
-      let startButton = document.createElement("div");
-      startButton.classList.add('button', 'button_start');
-      startButton.innerText = "start";
-      startButton.addEventListener('click', () => {this.startSimulation()});
-      this.buttonsWrapper.appendChild(startButton);
-
-      let stepButton = document.createElement("div");
-      stepButton.classList.add('button', 'button_step');
-      stepButton.innerText = "step";
-      stepButton.addEventListener('click', () => {this.startSimulation(1000)});
-      this.buttonsWrapper.appendChild(stepButton);
-
-      let stopButton = document.createElement("div");
-      stopButton.classList.add('button', 'button_stop');
-      stopButton.innerText = "stop";
-      stopButton.addEventListener('click', () => {this.stopSimulation()});
-      this.buttonsWrapper.appendChild(stopButton);
 
       this.engine = Matter.Engine.create();
+
+      this.jointsList = [];
+    }
+
+    mount(gameFieldDOMObj) {
+      this.gameFieldWrapper = gameFieldDOMObj;
+      this.gameFieldWrapper.appendChild(this.gameCanvas);
+
+      console.log(this.gameFieldWrapper, 'rendered into', this.gameCanvas);
+      this.updateGamefieldPosition();
 
       this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine, options:RENDERER.options});
       Matter.Render.run(this.renderer);
 
-      this.updateGamefieldPosition();
       this.addGround([{x:0,y:400}, {x:200, y:700}, {x:300,y:700}, {x:350,y:650}, {x:400,y:600}, {x:500,y:550},
         {x:500,y:700}, {x:700,y:700}, {x:700,y:500}, {x:800,y:500}]);
-
-      this.jointsList = [];
     }
 
     updateGamefieldPosition() {
