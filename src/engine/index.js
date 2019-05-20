@@ -63,6 +63,15 @@ export default class Engine {
     this.jointsList.push(new Joint(x, y, this.engine));
   };
 
+  getJointsList() {
+    let jointsList = this.jointsList.map(joint => {return ({x: joint.initialX, y: joint.initialY})});;
+    return jointsList;
+  }
+
+  loadJointsFromList(jointsList) {
+    jointsList.forEach(joint => this.addJoint(joint.x, joint.y))
+  }
+
   startSimulation(time) {
     console.debug('start');
     const stepTime = isFinite(time) ? time : false;

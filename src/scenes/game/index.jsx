@@ -11,23 +11,23 @@ export default class GameScene extends React.Component {
     super(props);
 
     this.state = {
-      isUserLoggedIn: false,
+      userId: '122',
     };
 
     this.gameEngine = new Engine();
   }
 
   render() {
-    const {isUserLoggedIn} = this.state;
+    const {userId} = this.state;
 
     return (
       <div id="root">
         <h1 className="main-header">
           Welcome! Click on field to add come bals to simulation
         </h1>
-        <SimulationControl engine={this.gameEngine}/>
-        <GameField engine={this.gameEngine}/>
-        {isUserLoggedIn ?
+        <SimulationControl engine={this.gameEngine} userId={userId}/>
+        <GameField engine={this.gameEngine} userId={userId}/>
+        {userId ?
           <LoginSection engine={this.gameEngine}/>
           :
           <SimulationsList engine={this.gameEngine}/>

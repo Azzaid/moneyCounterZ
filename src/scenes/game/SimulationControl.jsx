@@ -1,4 +1,5 @@
 import React from "react";
+import http, { simulationDataAPI } from '../../httpRequestModule/index.js';
 
 export default class SimulationControl extends React.Component {
   constructor(props) {
@@ -6,12 +7,15 @@ export default class SimulationControl extends React.Component {
   }
 
   render() {
-    const {engine} = this.props;
+    const {engine, userId} = this.props;
 
     return (
       <div className="buttons-wrapper">
         <div className="button button_start"
-        onClick={() => {engine.startSimulation()}}>
+        onClick={() => {
+          http.get(simulationDataAPI(userId), engine.getJointsList());
+          engine.startSimulation()
+        }}>
           Start
         </div>
         <div className="button button_step"
