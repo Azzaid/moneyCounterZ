@@ -7,10 +7,10 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(cfg => {
-  console.log(cfg);
+  cfg.headers["Access-Control-Allow-Origin"] = "*";
   return cfg;
 });
 
 export default http;
 
-export const simulationDataAPI = userId => `/simulationData/${userId}`;
+export const simulationDataAPI = (userId, entryId) => `/simulationData/${userId}${entryId ? '/' + entryId : ''}`;

@@ -1,50 +1,21 @@
-body {
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
   background-color: lightgrey;
-  color: #8EE4AF;
 }
 
-.main-header {
-  color: blueviolet;
-  text-align: center;
+#root {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
-.buttons-wrapper {
-  width: 100%;
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.game-field-wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button {
-  width: 100px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 25px;
-  color: black;
-  cursor: pointer;
-  box-shadow: 0 .375em .313em -0.313em rgba(0,0,0,.8), inset 0 .063em rgba(255,255,255,.4), inset 0 -0.188em rgba(0,0,0,.15);
-  border-radius: 10px;
-}
-
-.button_start {
-  background-color: chartreuse;
-}
-
-.button_step {
-  background-color: darkorange;
-}
-
-.button_stop {
-  background-color: darkred;
-}
+@import "fonts.scss";
+@import "scenes/game-field.scss";

@@ -13,7 +13,8 @@ export default class SimulationControl extends React.Component {
       <div className="buttons-wrapper">
         <div className="button button_start"
         onClick={() => {
-          http.get(simulationDataAPI(userId), engine.getJointsList());
+          let someList = engine.getJointsList();
+          http.post(simulationDataAPI(userId), someList);
           engine.startSimulation()
         }}>
           Start

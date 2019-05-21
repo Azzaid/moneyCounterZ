@@ -28,9 +28,9 @@ export default class GameScene extends React.Component {
         <SimulationControl engine={this.gameEngine} userId={userId}/>
         <GameField engine={this.gameEngine} userId={userId}/>
         {userId ?
-          <LoginSection engine={this.gameEngine}/>
+          <SimulationsList engine={this.gameEngine} userId={userId}/>
           :
-          <SimulationsList engine={this.gameEngine}/>
+          <LoginSection engine={this.gameEngine}/>
         }
       </div>
     )

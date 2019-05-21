@@ -6,11 +6,7 @@ export default class GameField extends React.Component {
   }
 
   componentDidMount() {
-    this.props.engine.mount(this.gameFieldRef)
-  }
-
-  componentDidUpdate() {
-    this.props.engine.updateGamefieldPosition();
+    this.props.engine.mount(this.gameFieldRef);
   }
 
   render() {
