@@ -1,7 +1,7 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
   },
@@ -15,7 +15,10 @@ module.exports = {
       {test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: ['file-loader']},
       {test: /\.ts$/,
-        use:['ts-loader']}
+        use:['ts-loader']},
+      {test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']}
     ]
   },
 };

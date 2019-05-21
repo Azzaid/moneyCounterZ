@@ -4,48 +4,27 @@ import { GROUND, RENDERER } from "../constants/gameObjects"
 import Joint from "./components/joint.js"
 
 export default class Engine {
-    constructor (gameFieldDOMObj, buttonsWrapperDOMObj) {
-      this.gameFieldWrapper = gameFieldDOMObj;
+    constructor () {
       this.gameCanvas = document.createElement("canvas");
-      this.gameCanvas.addEventListener('click', event => {this.addJoint(event.clientX - this.gamefieldCornerX, event.clientY - this.gamefieldCornerY)});
-      this.gameFieldWrapper.appendChild(this.gameCanvas);
-
-      this.buttonsWrapper = buttonsWrapperDOMObj;
-      let startButton = document.createElement("div");
-      startButton.classList.add('button', 'button_start');
-      startButton.innerText = "start";
-      startButton.addEventListener('click', () => {this.startSimulation()});
-      this.buttonsWrapper.appendChild(startButton);
-
-      let stepButton = document.createElement("div");
-      stepButton.classList.add('button', 'button_step');
-      stepButton.innerText = "step";
-      stepButton.addEventListener('click', () => {this.startSimulation(1000)});
-      this.buttonsWrapper.appendChild(stepButton);
-
-      let stopButton = document.createElement("div");
-      stopButton.classList.add('button', 'button_stop');
-      stopButton.innerText = "stop";
-      stopButton.addEventListener('click', () => {this.stopSimulation()});
-      this.buttonsWrapper.appendChild(stopButton);
+      this.gameCanvas.setAttribute("id", "gameCanvas");
+      this.gameCanvas.addEventListener('click', (event) => {this.addJoint(event.offsetX, event.offsetY)});
 
       this.engine = Matter.Engine.create();
 
+      this.jointsList = [];
+  
+      this.simInProgress = false;
+    }
+
+    mount(gameFieldDOMObj) {
+      this.gameFieldWrapper = gameFieldDOMObj;
+      this.gameFieldWrapper.appendChild(this.gameCanvas);
+      
       this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine, options:RENDERER.options});
       Matter.Render.run(this.renderer);
 
-      this.updateGamefieldPosition();
-      this.addGround([{x:0,y:400}, {x:200, y:700}, {x:300,y:700}, {x:350,y:650}, {x:400,y:600}, {x:500,y:550},
-        {x:500,y:700}, {x:700,y:700}, {x:700,y:500}, {x:800,y:500}]);
-
-      this.jointsList = [];
+      this.addGround(GROUND.coordinates);
     }
-
-    updateGamefieldPosition() {
-        const gamefieldCorner = this.gameCanvas.getBoundingClientRect();
-        this.gamefieldCornerX = gamefieldCorner.left;
-        this.gamefieldCornerY = gamefieldCorner.top;
-    };
 
   addGround(groundSurfaceArray) {
     let previousDot = false;
@@ -73,12 +52,30 @@ export default class Engine {
     })
   };
 
-  addJoint(x,y) {
-    this.jointsList.push(new Joint(x, y, this.engine));
+  addJoint(x, y) {
+    if (!this.simInProgress) {
+      this.jointsList.push(new Joint(x, y, this.engine));
+    }
   };
+
+  getJointsList() {
+    let jointsList = this.jointsList.map(joint => {return ({x: joint.initialX, y: joint.initialY})});
+    return jointsList;
+  }
+
+  loadJointsFromList(jointsList) {
+    this.clearField();
+    jointsList.forEach(joint => this.addJoint(joint.x, joint.y))
+  }
+  
+  clearField() {
+    Matter.Engine.clear(this.engine);
+    this.addGround(GROUND.coordinates);
+  }
 
   startSimulation(time) {
     console.debug('start');
+    this.simInProgress = true;
     const stepTime = isFinite(time) ? time : false;
     const startTime = new Date().getTime();
     this.renderStep(startTime, startTime, stepTime)
@@ -98,6 +95,7 @@ export default class Engine {
       })
     } else {
       this.stopAnimationFlag = false;
+      this.simInProgress = false;
     }
   };
 }
