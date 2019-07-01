@@ -7,7 +7,7 @@ export default class Engine {
   constructor () {
     this.gameCanvas = document.createElement("canvas");
     this.gameCanvas.setAttribute("id", "gameCanvas");
-    this.gameCanvas.addEventListener('mousedown', this.handleGameFieldClick);
+    this.gameCanvas.addEventListener('click', (event) => {this.handleGameFieldClick(event)});
     
     this.engine = Matter.Engine.create();
     
@@ -15,7 +15,7 @@ export default class Engine {
     
     this.simInProgress = false;
     
-    this.selectedJoint = false;
+    this.selectedItem = false;
   }
   
   mount(gameFieldDOMObj) {
@@ -26,6 +26,7 @@ export default class Engine {
     Matter.Render.run(this.renderer);
     
     this.addGround(GROUND.coordinates);
+    this.createMouseConstraint();
   }
   
   addGround(groundSurfaceArray) {
@@ -54,8 +55,19 @@ export default class Engine {
     })
   };
   
+  createMouseConstraint() {
+    console.log('created');
+    this.mouse = Matter.Mouse.create(this.gameCanvas.elt);
+    this.mouseConstraint = Matter.MouseConstraint.create(this.engine, {mouse: this.mouse});
+  }
+  
   handleGameFieldClick(event) {
-    this.addJoint(event.offsetX, event.offsetY)
+    console.log('clicked on game field');
+    if (!this.selectedItem) {
+      console.log(this.mouse);
+      console.log(this.mouseConstraint);
+      this.addJoint(event.offsetX, event.offsetY)
+    }
   }
   
   addJoint(x, y) {
