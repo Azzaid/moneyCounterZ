@@ -1,4 +1,4 @@
-export function getLineLenght (dot1X: number, dot1Y: number, dot2X: number, dot2Y: number) {
+export function getLengthBetweenDots (dot1X: number, dot1Y: number, dot2X: number, dot2Y: number) {
   return Math.sqrt(Math.pow((dot1Y - dot2Y) ,2) + Math.pow((dot1X - dot2X),2));
 }
 

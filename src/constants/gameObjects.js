@@ -11,6 +11,7 @@ export const JOINT = {
   friction:0.1,
   collisionBitset:0x0010,
   collisionBitmask:0x0001,
+  typeString: 'JOINT'
 };
 
 export const RENDERER = {

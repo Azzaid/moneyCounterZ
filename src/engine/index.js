@@ -1,5 +1,6 @@
 import Matter from "matter-js";
-import { getLineLenght, getAngleBetweenDots } from "./math/planimetry.ts"
+import { getLengthBetweenDots, getAngleBetweenDots } from "./math/planimetry.ts"
+import clickedJoint from './helperFunctions/clickedJoint'
 import { GROUND, RENDERER } from "../constants/gameObjects"
 import Joint from "./components/joint.js"
 
@@ -7,7 +8,8 @@ export default class Engine {
   constructor () {
     this.gameCanvas = document.createElement("canvas");
     this.gameCanvas.setAttribute("id", "gameCanvas");
-    this.gameCanvas.addEventListener('click', (event) => {this.handleGameFieldClick(event)});
+    this.gameCanvas.addEventListener('mousedown', (event) => {this.handleGameFieldMouseDown(event)});
+    this.gameCanvas.addEventListener('mouseup', (event) => {this.handleGameFieldMouseUp(event)});
     
     this.engine = Matter.Engine.create();
     
@@ -26,14 +28,13 @@ export default class Engine {
     Matter.Render.run(this.renderer);
     
     this.addGround(GROUND.coordinates);
-    this.createMouseConstraint();
   }
   
   addGround(groundSurfaceArray) {
     let previousDot = false;
     groundSurfaceArray.forEach(({x,y}) => {
       if (previousDot) {
-        const length = getLineLenght(previousDot.x, previousDot.y, x, y);
+        const length = getLengthBetweenDots(previousDot.x, previousDot.y, x, y);
         const angle = getAngleBetweenDots(previousDot.x, previousDot.y, x, y);
         
         const centerX = Math.min(previousDot.x, x) + Math.abs(previousDot.x - x)/2;
@@ -54,19 +55,21 @@ export default class Engine {
       }
     })
   };
-  
-  createMouseConstraint() {
-    console.log('created');
-    this.mouse = Matter.Mouse.create(this.gameCanvas.elt);
-    this.mouseConstraint = Matter.MouseConstraint.create(this.engine, {mouse: this.mouse});
+
+  handleGameFieldMouseDown(event) {
+    const startTime = performance.now();
+    const clickedObject = clickedJoint({x:event.offsetX, y:event.offsetY}, this.jointsList);
+    this.selectedItem = clickedObject;
+    const endTime = performance.now();
+    console.log('mousedown took', (endTime-startTime));
   }
-  
-  handleGameFieldClick(event) {
-    console.log('clicked on game field');
+
+  handleGameFieldMouseUp(event) {
+    console.log('mouseUp on game field');
     if (!this.selectedItem) {
-      console.log(this.mouse);
-      console.log(this.mouseConstraint);
       this.addJoint(event.offsetX, event.offsetY)
+    } else {
+
     }
   }
   
