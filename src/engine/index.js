@@ -3,6 +3,7 @@ import { getLengthBetweenDots, getAngleBetweenDots } from "./math/planimetry.ts"
 import clickedJoint from './helperFunctions/clickedJoint'
 import { GROUND, RENDERER } from "../constants/gameObjects"
 import Joint from "./components/joint.js"
+import Bone from "./components/bone.js"
 
 export default class Engine {
   constructor () {
@@ -14,6 +15,7 @@ export default class Engine {
     this.engine = Matter.Engine.create();
     
     this.jointsList = [];
+    this.bonesList = [];
     
     this.simInProgress = false;
     
@@ -58,8 +60,18 @@ export default class Engine {
 
   handleGameFieldMouseDown(event) {
     const startTime = performance.now();
-    const clickedObject = clickedJoint({x:event.offsetX, y:event.offsetY}, this.jointsList);
-    this.selectedItem = clickedObject;
+    if (!this.simInProgress) {
+      const clickedObject = clickedJoint({x:event.offsetX, y:event.offsetY}, this.jointsList);
+      if (clickedObject) {
+        console.log('object click');
+        this.previouslySelectedItem = this.selectedItem;
+        this.selectedItem = clickedObject;
+      } else {
+        console.log('field click');
+        this.previouslySelectedItem = undefined;
+        this.selectedItem = undefined;
+      }
+    }
     const endTime = performance.now();
     console.log('mousedown took', (endTime-startTime));
   }
@@ -68,16 +80,18 @@ export default class Engine {
     console.log('mouseUp on game field');
     if (!this.selectedItem) {
       this.addJoint(event.offsetX, event.offsetY)
-    } else {
-
+    } else if (this.previouslySelectedItem && this.selectedItem) {
+      this.addBone(this.previouslySelectedItem, this.selectedItem)
     }
   }
   
   addJoint(x, y) {
-    if (!this.simInProgress) {
-      this.jointsList.push(new Joint(x, y, this.engine));
-    }
+    this.jointsList.push(new Joint(x, y, this.engine));
   };
+
+  addBone(joint1, joint2) {
+    this.bonesList.push(new Bone(joint1, joint2, this.engine))
+  }
   
   getJointsList() {
     let jointsList = this.jointsList.map(joint => {return ({x: joint.initialX, y: joint.initialY})});
@@ -95,11 +109,13 @@ export default class Engine {
   }
   
   startSimulation(time) {
-    console.debug('start');
-    this.simInProgress = true;
-    const stepTime = isFinite(time) ? time : false;
-    const startTime = new Date().getTime();
-    this.renderStep(startTime, startTime, stepTime)
+    if (!this.simInProgress) {
+      console.debug('start');
+      this.simInProgress = true;
+      const stepTime = isFinite(time) ? time : false;
+      const startTime = new Date().getTime();
+      this.renderStep(startTime, startTime, stepTime)
+    }
   };
   
   stopSimulation() {
@@ -109,7 +125,7 @@ export default class Engine {
   
   renderStep(animationStartTime, previousCallTime, targetAnimationLength)  {
     const currentTime = new Date().getTime();
-    Matter.Engine.update(this.engine, previousCallTime-currentTime, 1);
+    Matter.Engine.update(this.engine, (previousCallTime-currentTime), 1);
     if (!this.stopAnimationFlag) {
       if (!targetAnimationLength || currentTime - animationStartTime < targetAnimationLength) window.requestAnimationFrame(()=>{
         this.renderStep(animationStartTime, currentTime, targetAnimationLength)
