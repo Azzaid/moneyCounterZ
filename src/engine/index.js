@@ -1,9 +1,13 @@
 import Matter from "matter-js";
-import { getLengthBetweenDots, getAngleBetweenDots } from "./math/planimetry.ts"
+
 import clickedJoint from './helperFunctions/clickedJoint'
-import { GROUND, RENDERER } from "../constants/gameObjects"
+
 import Joint from "./components/joint.js"
 import Bone from "./components/bone.js"
+import Ground from "./components/ground.js"
+
+import { RENDERER } from "../constants/physicalConstants"
+import { hills } from "../constants/groundMaps"
 
 export default class Engine {
   constructor () {
@@ -13,6 +17,8 @@ export default class Engine {
     this.gameCanvas.addEventListener('mouseup', (event) => {this.handleGameFieldMouseUp(event)});
     
     this.engine = Matter.Engine.create();
+
+    this.ground = new Ground(this.engine);
     
     this.jointsList = [];
     this.bonesList = [];
@@ -28,35 +34,9 @@ export default class Engine {
     
     this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine, options:RENDERER.options});
     Matter.Render.run(this.renderer);
-    
-    this.addGround(GROUND.coordinates);
+
+    this.ground.create(hills);
   }
-  
-  addGround(groundSurfaceArray) {
-    let previousDot = false;
-    groundSurfaceArray.forEach(({x,y}) => {
-      if (previousDot) {
-        const length = getLengthBetweenDots(previousDot.x, previousDot.y, x, y);
-        const angle = getAngleBetweenDots(previousDot.x, previousDot.y, x, y);
-        
-        const centerX = Math.min(previousDot.x, x) + Math.abs(previousDot.x - x)/2;
-        const centerY = Math.min(previousDot.y, y) + Math.abs(previousDot.y - y)/2;
-        
-        const matterObject = Matter.Bodies.rectangle(centerX, centerY, length, GROUND.thickness, {
-          angle:angle,
-          isStatic:true,
-          friction:GROUND.friction,
-        });
-        
-        Matter.World.add(this.engine.world, [matterObject]);
-        
-        previousDot = {x:x, y:y};
-        
-      } else {
-        previousDot = {x:x, y:y};
-      }
-    })
-  };
 
   handleGameFieldMouseDown(event) {
     const startTime = performance.now();

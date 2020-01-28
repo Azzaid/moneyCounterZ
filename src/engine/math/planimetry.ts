@@ -1,20 +1,44 @@
-export function getLengthBetweenDots (dot1X: number, dot1Y: number, dot2X: number, dot2Y: number) {
-  return Math.sqrt(Math.pow((dot1Y - dot2Y) ,2) + Math.pow((dot1X - dot2X),2));
+interface dot {
+  x: number;
+  y: number;
 }
 
-export function getAngleBetweenDots(dot1X: number, dot1Y: number, dot2X: number, dot2Y: number) {
-  let x: number;
-  let y: number;
-  x = +(dot2X - dot1X).toFixed(0);
-  y = +(dot2Y - dot1Y).toFixed(0);
+export function getLengthBetweenDots (dot1: dot, dot2: dot) {
+  return Math.sqrt(Math.pow((dot1.y - dot2.y) ,2) + Math.pow((dot1.x - dot2.x),2));
+}
+
+export function getAngleBetweenDots(dot1: dot, dot2: dot) {
+  let xAxisProjection: number;
+  let yAxisProjection: number;
+
+  xAxisProjection = +(dot2.x - dot1.x).toFixed(0);
+  yAxisProjection = +(dot2.y - dot1.y).toFixed(0);
 
   let angle: number;
 
-  if (x != 0) {
-    angle = Math.atan(y/x);
+  if (xAxisProjection != 0) {
+    angle = Math.atan(yAxisProjection/xAxisProjection);
   } else {
-    angle = (y > 0 ? 1 : -1) * Math.PI/2;
+    angle = (yAxisProjection > 0 ? 1 : -1) * Math.PI/2;
   }
 
   return angle;
+}
+
+export function getLineCenter(dot1: dot, dot2: dot) {
+  let center: dot = {x:0, y:0};
+
+  center.x = Math.min(dot1.x, dot2.x) + Math.abs(dot1.x - dot2.x)/2;
+  center.y = Math.min(dot1.y, dot2.y) + Math.abs(dot1.y - dot2.y)/2;
+  center.x = +center.x.toFixed(0);
+  center.y = +center.y.toFixed(0);
+
+  return center;
+}
+
+export function getVectorProjections(lenght: number, angle: number) {
+  let xAxisProjection: number;
+  let yAxisProjection: number;
+
+  return {xAxisProjection, yAxisProjection};
 }

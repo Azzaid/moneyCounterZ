@@ -1,16 +1,13 @@
 import Matter from "matter-js";
-import { JOINT } from "../../constants/gameObjects.js"
+import { JOINT } from "../../constants/physicalConstants.js"
 
 export default class Joint {
   constructor(x, y, engine) {
-    this.initialX = x;
-    this.initialY = y;
-    this.x = x;
-    this.y = y;
+    this.initialPosition = {x, y};
     this.engine = engine;
     this.type = JOINT.typeString;
     this.matterObject = Matter.Bodies.circle(
-      this.initialX, this.initialY, JOINT.bodyRadius,
+        this.initialPosition.x, this.initialPosition.y, JOINT.bodyRadius,
       {
         density: 0.04,
         friction: JOINT.friction,
