@@ -7,7 +7,7 @@ import Bone from "./components/bone.js"
 import Ground from "./components/ground.js"
 
 import { RENDERER } from "../constants/physicalConstants"
-import { hills } from "../constants/groundMaps"
+import { hills, flat } from "../constants/groundMaps"
 
 export default class Engine {
   constructor () {
@@ -35,7 +35,7 @@ export default class Engine {
     this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine, options:RENDERER.options});
     Matter.Render.run(this.renderer);
 
-    this.ground.create(hills);
+    this.ground.create(flat);
   }
 
   handleGameFieldMouseDown(event) {

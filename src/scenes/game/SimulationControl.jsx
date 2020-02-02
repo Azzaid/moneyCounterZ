@@ -12,11 +12,7 @@ export default class SimulationControl extends React.Component {
     return (
       <div className="buttons-wrapper">
         <div className="button button_start"
-        onClick={() => {
-          let someList = engine.getJointsList();
-          http.post(simulationDataAPI(userId), someList);
-          engine.startSimulation()
-        }}>
+        onClick={() => {engine.startSimulation()}}>
           Start
         </div>
         <div className="button button_step"

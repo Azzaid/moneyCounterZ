@@ -7,6 +7,13 @@ export function getLengthBetweenDots (dot1: dot, dot2: dot) {
   return Math.sqrt(Math.pow((dot1.y - dot2.y) ,2) + Math.pow((dot1.x - dot2.x),2));
 }
 
+export function getProjectedLengthBetweenDots(dot1: dot, dot2: dot) {
+  const xAxisProjection: number = dot1.x - dot2.x;
+  const yAxisProjection: number = dot1.y - dot2.y;
+
+  return [xAxisProjection, yAxisProjection];
+}
+
 export function getAngleBetweenDots(dot1: dot, dot2: dot) {
   let xAxisProjection: number;
   let yAxisProjection: number;

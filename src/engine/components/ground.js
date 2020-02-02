@@ -30,9 +30,7 @@ export default class Ground {
                 Matter.World.add(this.engine.world, [matterObject]);
             }
 
-            previousDot = {dot};
+            previousDot = dot;
         });
-console.log(this.groundObjectsList);
-
     }
 }
