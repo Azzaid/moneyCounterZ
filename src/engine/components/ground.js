@@ -1,6 +1,6 @@
 import {getAngleBetweenDots, getLengthBetweenDots, getLineCenter} from "../math/planimetry.ts";
 import Matter from "matter-js";
-import {GROUND} from "../../constants/physicalConstants";
+import {BONE, GROUND} from "../../constants/physicalConstants";
 
 export default class Ground {
     constructor(engine) {
@@ -24,6 +24,10 @@ export default class Ground {
                     angle:angle,
                     isStatic:true,
                     friction:GROUND.friction,
+                    collisionFilter:{
+                        group:GROUND.collisionBitset,
+                        mask:GROUND.collisionBitmask
+                    }
                 });
 
                 this.groundObjectsList.push(matterObject);

@@ -11,7 +11,7 @@ export function getProjectedLengthBetweenDots(dot1: dot, dot2: dot) {
   const xAxisProjection: number = dot1.x - dot2.x;
   const yAxisProjection: number = dot1.y - dot2.y;
 
-  return [xAxisProjection, yAxisProjection];
+  return {x:xAxisProjection, y:yAxisProjection};
 }
 
 export function getAngleBetweenDots(dot1: dot, dot2: dot) {
@@ -30,6 +30,14 @@ export function getAngleBetweenDots(dot1: dot, dot2: dot) {
   }
 
   return angle;
+}
+
+export function shiftDot(dot: dot, length: number, angle: number) {
+  const xShift: number = length*Math.cos(angle);
+  const yShift: number = length*Math.sin(angle);
+
+  const shiftedDot: dot = {x:dot.x + xShift, y:dot.y + yShift};
+  return shiftedDot;
 }
 
 export function getLineCenter(dot1: dot, dot2: dot) {

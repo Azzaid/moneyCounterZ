@@ -1,6 +1,8 @@
 export const GROUND = {
   thickness:10,
-  friction:0.8
+  friction:0.8,
+  collisionBitset:0x1111,
+  collisionBitmask:0x1111,
 };
 
 export const JOINT = {
