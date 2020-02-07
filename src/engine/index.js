@@ -11,11 +11,6 @@ import { hills, flat } from "../constants/groundMaps"
 
 export default class Engine {
   constructor () {
-    this.gameCanvas = document.createElement("canvas");
-    this.gameCanvas.setAttribute("id", "gameCanvas");
-    this.gameCanvas.addEventListener('mousedown', (event) => {this.handleGameFieldMouseDown(event)});
-    this.gameCanvas.addEventListener('mouseup', (event) => {this.handleGameFieldMouseUp(event)});
-    
     this.engine = Matter.Engine.create();
 
     this.ground = new Ground(this.engine);
@@ -29,11 +24,11 @@ export default class Engine {
   }
   
   mount(gameFieldDOMObj) {
-    this.gameFieldWrapper = gameFieldDOMObj;
-    this.gameFieldWrapper.appendChild(this.gameCanvas);
+    this.gameField = document.getElementById("gameCanvas");
+    this.gameCanvas.addEventListener('mousedown', (event) => {this.handleGameFieldMouseDown(event)});
+    this.gameCanvas.addEventListener('mouseup', (event) => {this.handleGameFieldMouseUp(event)});
     
-    this.renderer = Matter.Render.create({canvas:this.gameCanvas, engine:this.engine, options:RENDERER.options});
-    Matter.Render.run(this.renderer);
+    this.renderer = ;
 
     this.ground.create(flat);
   }
@@ -94,7 +89,7 @@ export default class Engine {
       this.simInProgress = true;
       const stepTime = isFinite(time) ? time : false;
       const startTime = new Date().getTime();
-      this.renderStep(startTime, startTime, stepTime)
+      this.advanceToNextFrame(startTime, startTime, stepTime)
     }
   };
   
@@ -103,12 +98,12 @@ export default class Engine {
     this.stopAnimationFlag = true;
   };
   
-  renderStep(animationStartTime, previousCallTime, targetAnimationLength)  {
+  advanceToNextFrame(animationStartTime, previousCallTime, targetAnimationLength)  {
     const currentTime = new Date().getTime();
     Matter.Engine.update(this.engine, (previousCallTime-currentTime), 1);
     if (!this.stopAnimationFlag) {
       if (!targetAnimationLength || currentTime - animationStartTime < targetAnimationLength) window.requestAnimationFrame(()=>{
-        this.renderStep(animationStartTime, currentTime, targetAnimationLength)
+        this.advanceToNextFrame(animationStartTime, currentTime, targetAnimationLength)
       })
     } else {
       this.stopAnimationFlag = false;

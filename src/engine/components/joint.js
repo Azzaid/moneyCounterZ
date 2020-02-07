@@ -9,10 +9,10 @@ export default class Joint {
     this.matterObject = Matter.Bodies.circle(
         this.initialPosition.x, this.initialPosition.y, JOINT.bodyRadius,
       {
-        density: JOINT.friction,
+        density: JOINT.density,
         friction: JOINT.friction,
-        frictionAir: JOINT.friction,
-        restitution: JOINT.friction,
+        frictionAir: JOINT.frictionAir,
+        restitution: JOINT.restitution,
         collisionFilter:{
             category:JOINT.collisionBitset,
             mask:JOINT.collisionBitmask

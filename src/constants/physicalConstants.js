@@ -8,18 +8,18 @@ export const GROUND = {
 export const JOINT = {
   bodyRadius:15,
   visualRadius:40,
-  collisionBitset:0x101,
+  collisionBitset:0x110,
   collisionBitmask:0x010,
   typeString: 'JOINT',
   density: 0.04,
-  friction:0.5,
-  frictionAir: 0.00001,
-  restitution: 0.3,
+  friction:0.3,
+  frictionAir: 0.0001,
+  restitution: 0.5,
 };
 
 export const BONE = {
   thickness:15,
-  collisionBitset:0x101,
+  collisionBitset:0x100,
   collisionBitmask:0x001,
   typeString: 'BONE',
   density: 0.04,
