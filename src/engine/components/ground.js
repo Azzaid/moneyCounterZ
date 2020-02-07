@@ -25,7 +25,7 @@ export default class Ground {
                     isStatic:true,
                     friction:GROUND.friction,
                     collisionFilter:{
-                        group:GROUND.collisionBitset,
+                        category:GROUND.collisionBitset,
                         mask:GROUND.collisionBitmask
                     }
                 });

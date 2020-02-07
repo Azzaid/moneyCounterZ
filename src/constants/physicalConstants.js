@@ -1,29 +1,36 @@
 export const GROUND = {
   thickness:10,
   friction:0.8,
-  collisionBitset:0x1111,
-  collisionBitmask:0x1111,
+  collisionBitset:0x011,
+  collisionBitmask:0x100,
 };
 
 export const JOINT = {
   bodyRadius:15,
   visualRadius:40,
-  friction:0.1,
-  collisionBitset:0x0001,
-  collisionBitmask:0x0001,
-  typeString: 'JOINT'
+  collisionBitset:0x101,
+  collisionBitmask:0x010,
+  typeString: 'JOINT',
+  density: 0.04,
+  friction:0.5,
+  frictionAir: 0.00001,
+  restitution: 0.3,
 };
 
 export const BONE = {
   thickness:15,
-  collisionBitset:0x0010,
-  collisionBitmask:0x0010,
-  typeString: 'BONE'
+  collisionBitset:0x101,
+  collisionBitmask:0x001,
+  typeString: 'BONE',
+  density: 0.04,
+  friction: 0.01,
+  frictionAir: 0.00001,
+  restitution: 0.8,
 };
 
 export const CONSTRAINT = {
-  damping:1,
-  stiffness:1,
+  damping:0.1,
+  stiffness:0.7,
   length:3,
 };
 
